@@ -11,7 +11,7 @@ const timeout = 3 * time.Second
 
 func TestRunner_Start(t *testing.T) {
 	log.Println("starting work . ")
-
+	//runner.New()
 	r := New(timeout)
 	r.Add(createTask(), createTask(), createTask())
 

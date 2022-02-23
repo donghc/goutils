@@ -19,6 +19,8 @@ type workWxHook struct {
 	key       string
 	apiURL    string
 	mentioned []string
+	ip        string
+	hostname  string
 }
 
 // https://work.weixin.qq.com/api/doc/90000/90136/91770
@@ -26,6 +28,8 @@ type workWxMsgContent struct {
 	Content       string   `json:"content"`
 	MentionedList []string `json:"mentioned_list"`
 	MobileList    []string `json:"mentioned_mobile_list"`
+	IP            string   `json:"ip"`
+	HostName      string   `json:"hostname"`
 }
 
 type workWxMsg struct {
@@ -33,7 +37,14 @@ type workWxMsg struct {
 	Text    workWxMsgContent `json:"text"`
 }
 
-func NewWorkWxHook(client *http.Client, subject string, key string, mentioned []string) *workWxHook {
+type content struct {
+	zapcore.Entry
+	Subject  string
+	IP       string
+	HostName string
+}
+
+func NewWorkWxHook(client *http.Client, subject string, key string, mentioned []string, ip, hostname string) *workWxHook {
 	if subject == "" {
 		subject = os.Args[0]
 	}
@@ -47,11 +58,13 @@ func NewWorkWxHook(client *http.Client, subject string, key string, mentioned []
 		client:    &http.Client{},
 		apiURL:    "https://qyapi.weixin.qq.com/cgi-bin/webhook/send?key=" + key,
 		mentioned: mentioned,
+		ip:        ip,
+		hostname:  hostname,
 	}
 }
 
 func (self *workWxHook) Levels() []logrus.Level {
-	return []logrus.Level{logrus.ErrorLevel, logrus.PanicLevel}
+	return []logrus.Level{logrus.PanicLevel}
 }
 
 func (self *workWxHook) Fire(entry *logrus.Entry) error {
@@ -103,10 +116,18 @@ func (self *workWxHook) sendZap(entry zapcore.Entry) error {
 	}
 	client := self.client
 
+	ct := &content{
+		Entry:    entry,
+		Subject:  self.subject,
+		IP:       self.ip,
+		HostName: self.hostname,
+	}
+	marshal, _ := json.Marshal(ct)
+
 	var msg workWxMsg
 	msg.MsgType = "text"
 	txt := &msg.Text
-	txt.Content = entry.Message
+	txt.Content = string(marshal)
 	if len(self.mentioned) == 0 {
 		txt.MentionedList = []string{"@all"}
 	} else {

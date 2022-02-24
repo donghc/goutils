@@ -5,6 +5,7 @@ go 1.17
 require (
 	github.com/Shopify/sarama v1.31.1
 	github.com/coreos/etcd v3.3.10+incompatible
+	github.com/hashicorp/go-retryablehttp v0.7.0
 	github.com/sirupsen/logrus v1.8.1
 	github.com/spf13/viper v1.10.1
 	github.com/tomasen/realip v0.0.0-20180522021738-f0c99a92ddce
@@ -29,6 +30,7 @@ require (
 	github.com/google/btree v1.0.1 // indirect
 	github.com/grpc-ecosystem/go-grpc-middleware v1.3.0 // indirect
 	github.com/grpc-ecosystem/go-grpc-prometheus v1.2.0 // indirect
+	github.com/hashicorp/go-cleanhttp v0.5.2 // indirect
 	github.com/hashicorp/go-uuid v1.0.2 // indirect
 	github.com/hashicorp/hcl v1.0.0 // indirect
 	github.com/jcmturner/aescts/v2 v2.0.0 // indirect

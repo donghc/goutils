@@ -66,14 +66,15 @@ func NewCustomLogger(level string, ws []io.Writer, opts []zap.Option) Logger {
 		TimeKey:        "time",
 		LevelKey:       "level",
 		NameKey:        "logger",
-		CallerKey:      "line",
+		CallerKey:      "caller",
 		MessageKey:     "msg",
 		StacktraceKey:  "stacktrace",
+		FunctionKey:    zapcore.OmitKey,
 		LineEnding:     zapcore.DefaultLineEnding,
-		EncodeLevel:    zapcore.LowercaseLevelEncoder, // 小写编码器
-		EncodeTime:     zapcore.ISO8601TimeEncoder,    // ISO8601 UTC 时间格式
-		EncodeDuration: zapcore.MillisDurationEncoder, //	毫秒数
-		EncodeCaller:   zapcore.FullCallerEncoder,     // 全路径编码器
+		EncodeLevel:    zapcore.LowercaseLevelEncoder,  // 小写编码器
+		EncodeTime:     zapcore.ISO8601TimeEncoder,     // ISO8601 UTC 时间格式
+		EncodeDuration: zapcore.SecondsDurationEncoder, //	毫秒数
+		EncodeCaller:   zapcore.ShortCallerEncoder,     // 全路径编码器
 		EncodeName:     zapcore.FullNameEncoder,
 	}
 	var zws []zapcore.WriteSyncer
@@ -87,7 +88,8 @@ func NewCustomLogger(level string, ws []io.Writer, opts []zap.Option) Logger {
 		loggingLevel,                          // 日志级别
 	)
 
-	return NewWithZap(zap.New(core, zap.Fields(zap.String("hostname", hostname)), zap.Fields(zap.String("ip", addrs.String()))), opts...)
+	return NewWithZap(zap.New(core, zap.AddCaller(), zap.AddStacktrace(zapcore.PanicLevel),
+		zap.Fields(zap.String("hostname", hostname)), zap.Fields(zap.String("ip", addrs.String()))), opts...)
 
 }
 

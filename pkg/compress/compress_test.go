@@ -13,7 +13,23 @@ func TestDoZlibCompress(t *testing.T) {
 	fmt.Println(string(DoZlibUnCompress(zip)))
 }
 
+func TestDoZlibUnCompress(t *testing.T) {
+	s := "hello, gasdgdsahgfjhkl"
+	zip := DoZlibCompress([]byte(s))
+	fmt.Println(len(zip))
+	fmt.Println(len(s))
+	fmt.Println(string(DoZlibUnCompress(zip)))
+}
+
 func TestDoGzipCompress(t *testing.T) {
+	s := "hello, gasdgdsahgfjhkl"
+	zip := DoGZipCompress([]byte(s))
+	fmt.Println(len(zip))
+	fmt.Println(len(s))
+	fmt.Println(string(DoGZipUnCompress(zip)))
+}
+
+func TestDoGZipUnCompress(t *testing.T) {
 	s := "hello, gasdgdsahgfjhkl"
 	zip := DoGZipCompress([]byte(s))
 	fmt.Println(len(zip))

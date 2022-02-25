@@ -50,7 +50,7 @@ func Load(path string, c interface{}) {
 	})
 }
 
-func Load1(path string, c interface{}) {
+func LoadAndCreate(path string, bys []byte, c interface{}) {
 	dir := filepath.Dir(path)
 	filename := filepath.Base(path)
 	ext := filepath.Ext(path)
@@ -71,20 +71,16 @@ func Load1(path string, c interface{}) {
 		}
 		defer f.Close()
 
+		var r io.Reader = bytes.NewReader(bys)
+		if err := viper.ReadConfig(r); err != nil {
+			panic(err)
+		}
+
 		if err := viper.WriteConfig(); err != nil {
 			panic(err)
 		}
 	}
 
-	bys, err := ioutil.ReadFile(path)
-	if os.IsNotExist(err) {
-		panic(err)
-	}
-
-	var r io.Reader = bytes.NewReader(bys)
-	if err := viper.ReadConfig(r); err != nil {
-		panic(err)
-	}
 	if err := viper.Unmarshal(&c); err != nil {
 		panic(err)
 	}

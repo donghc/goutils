@@ -1,6 +1,7 @@
 package config
 
 import (
+	_ "embed"
 	"fmt"
 	"testing"
 	"time"
@@ -53,6 +54,11 @@ type Config struct {
 	} `toml:"language"`
 }
 
+var (
+	//go:embed dev_configs.toml
+	devConfigs []byte
+)
+
 func TestLoad(t *testing.T) {
 	var (
 		p = "D:\\workspace\\github\\goutils\\pkg\\config\\dev_configs.toml"
@@ -63,5 +69,17 @@ func TestLoad(t *testing.T) {
 	fmt.Println(c)
 	//修改文件，实时监听文件的变化
 	time.Sleep(time.Second * 10)
+	fmt.Println(c)
+}
+
+func TestLoadAndCreate(t *testing.T) {
+	var (
+		p = "D:\\workspace\\github\\goutils\\pkg\\config\\prod_configs.toml"
+		c interface{}
+	)
+
+	LoadAndCreate(p, devConfigs, &c)
+	fmt.Println(c)
+	time.Sleep(time.Second * 20)
 	fmt.Println(c)
 }

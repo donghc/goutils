@@ -2,6 +2,8 @@ package main
 
 import (
 	"context"
+	"crypto/sha256"
+	"encoding/hex"
 	"encoding/json"
 	"fmt"
 	"github.com/coreos/etcd/clientv3"
@@ -30,7 +32,14 @@ func t2() {
 
 func main() {
 	t2()
+	s := "1b0000044568ca68c223c60d248a4eda505b3e0f9a64fa16ee6136e0677965b7"
+	fmt.Println(s[0:2])
+}
 
+func GetSHA256(b []byte) string {
+	h := sha256.New()
+	h.Write(b)
+	return hex.EncodeToString(h.Sum(nil))
 }
 
 func t1() {

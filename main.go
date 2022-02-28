@@ -17,7 +17,23 @@ var (
 	path    = "/config/engines/v1"
 )
 
+func t2() {
+
+	//获取时间戳
+
+	timestamp := time.Now().Unix()
+	fmt.Println(timestamp)
+	//格式化为字符串,tm为Time类型
+	tm := time.Unix(timestamp, 0)
+	fmt.Println(tm.Format("2006-01-02 15:04:05"))
+}
+
 func main() {
+	t2()
+
+}
+
+func t1() {
 	//配置
 	config = clientv3.Config{
 		Endpoints:   []string{"192.168.102.155:2379"},

@@ -55,6 +55,7 @@ type Config struct {
 }
 
 var (
+	//go embed 对文件夹的支持不是非常友好，当路径中出现特殊字符的时候，会忽略 @ref: fs.ValidPath
 	//go:embed dev_configs.toml
 	devConfigs []byte
 )

@@ -7,6 +7,7 @@ require (
 	github.com/cheggaaa/pb/v3 v3.0.8
 	github.com/coreos/etcd v3.3.10+incompatible
 	github.com/fsnotify/fsnotify v1.5.1
+	github.com/go-redis/redis/v8 v8.11.4
 	github.com/hashicorp/go-retryablehttp v0.7.0
 	github.com/sirupsen/logrus v1.8.1
 	github.com/spf13/viper v1.10.1
@@ -18,11 +19,13 @@ require (
 
 require (
 	github.com/VividCortex/ewma v1.1.1 // indirect
+	github.com/cespare/xxhash/v2 v2.1.2 // indirect
 	github.com/coreos/bbolt v1.3.4 // indirect
 	github.com/coreos/go-systemd v0.0.0-20191104093116-d3cd4ed1dbcf // indirect
 	github.com/coreos/pkg v0.0.0-20180928190104-399ea9e2e55f // indirect
 	github.com/davecgh/go-spew v1.1.1 // indirect
 	github.com/dgrijalva/jwt-go v3.2.0+incompatible // indirect
+	github.com/dgryski/go-rendezvous v0.0.0-20200823014737-9f7001d12a5f // indirect
 	github.com/eapache/go-resiliency v1.2.0 // indirect
 	github.com/eapache/go-xerial-snappy v0.0.0-20180814174437-776d5712da21 // indirect
 	github.com/eapache/queue v1.1.0 // indirect

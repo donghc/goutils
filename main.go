@@ -7,7 +7,8 @@ import (
 	"encoding/json"
 	"fmt"
 	"github.com/coreos/etcd/clientv3"
-	"github.com/go-redis/redis/v8"
+	"os"
+	"path/filepath"
 	"time"
 )
 
@@ -32,15 +33,25 @@ func t2() {
 }
 
 func main() {
-	rdb := redis.NewClient(&redis.Options{
-		Addr:     "localhost:6379",
-		Password: "", // no password set
-		DB:       0,  // use default DB
-	})
-	m := make(map[string]interface{})
-	m["vsclamav"] = "1234"
-	m["vscomod"] = "456"
-	rdb.HSet(context.Background(), "kafkaMetricInfo", m)
+	//rdb := redis.NewClient(&redis.Options{
+	//	Addr:     "localhost:6379",
+	//	Password: "", // no password set
+	//	DB:       0,  // use default DB
+	//})
+	//m := make(map[string]interface{})
+	//m["vsclamav"] = "1234"
+	//m["vscomod"] = "456"
+	//rdb.HSet(context.Background(), "kafkaMetricInfo", m)
+
+	dir := filepath.Dir("/data/file/1.txt")
+	base := filepath.Base("/data/file/1.txt")
+
+	fmt.Println(dir)
+	fmt.Println(base)
+	fmt.Println(filepath.Join(dir, base))
+	lstat, err2 := os.Stat("D:\\logs\\eng\\1234\\file")
+	fmt.Println(err2)
+	fmt.Println(lstat)
 }
 
 func GetSHA256(b []byte) string {

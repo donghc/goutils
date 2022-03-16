@@ -7,8 +7,7 @@ import (
 	"encoding/json"
 	"fmt"
 	"github.com/coreos/etcd/clientv3"
-	"os"
-	"path/filepath"
+	"log"
 	"time"
 )
 
@@ -22,17 +21,21 @@ var (
 )
 
 func t2() {
-
+	tm1 := "2017-03-18 17:39:59 +0000 UTC"                           //外部传入的时间字符串
+	timeTemplate1 := "2006-01-02 15:04:05 +0000 UTC"                 //常规类型
+	stamp, _ := time.ParseInLocation(timeTemplate1, tm1, time.Local) //使用parseInLocation将字符串格式化返回本地时区时间
+	log.Println(stamp.Unix())                                        //输出：1546926630
 	//获取时间戳
 
-	timestamp := time.Now().Unix()
-	fmt.Println(timestamp)
-	//格式化为字符串,tm为Time类型
-	tm := time.Unix(timestamp, 0)
-	fmt.Println(tm.Format("2006-01-02 15:04:05"))
+	//timestamp := time.Now().Unix()
+	//fmt.Println(timestamp)
+	////格式化为字符串,tm为Time类型
+	//tm := time.Unix(timestamp, 0)
+	//fmt.Println(tm.Format("2006-01-02 15:04:05"))
 }
 
 func main() {
+	t2()
 	//rdb := redis.NewClient(&redis.Options{
 	//	Addr:     "localhost:6379",
 	//	Password: "", // no password set
@@ -43,15 +46,15 @@ func main() {
 	//m["vscomod"] = "456"
 	//rdb.HSet(context.Background(), "kafkaMetricInfo", m)
 
-	dir := filepath.Dir("/data/file/1.txt")
-	base := filepath.Base("/data/file/1.txt")
-
-	fmt.Println(dir)
-	fmt.Println(base)
-	fmt.Println(filepath.Join(dir, base))
-	lstat, err2 := os.Stat("D:\\logs\\eng\\1234\\file")
-	fmt.Println(err2)
-	fmt.Println(lstat)
+	//dir := filepath.Dir("/data/file/1.txt")
+	//base := filepath.Base("/data/file/1.txt")
+	//
+	//fmt.Println(dir)
+	//fmt.Println(base)
+	//fmt.Println(filepath.Join(dir, base))
+	//lstat, err2 := os.Stat("D:\\logs\\eng\\1234\\file")
+	//fmt.Println(err2)
+	//fmt.Println(lstat)
 }
 
 func GetSHA256(b []byte) string {

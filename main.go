@@ -35,7 +35,9 @@ func t2() {
 }
 
 func main() {
+	now := time.Now()
 	t2()
+	fmt.Println("查询耗时：", time.Since(now))
 	//rdb := redis.NewClient(&redis.Options{
 	//	Addr:     "localhost:6379",
 	//	Password: "", // no password set

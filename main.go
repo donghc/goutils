@@ -8,6 +8,7 @@ import (
 	"fmt"
 	"github.com/coreos/etcd/clientv3"
 	"log"
+	"os"
 	"time"
 )
 
@@ -38,6 +39,9 @@ func main() {
 	now := time.Now()
 	t2()
 	fmt.Println("查询耗时：", time.Since(now))
+
+	err2 := os.MkdirAll("D:\\logs\\1\\2", 0755)
+	fmt.Println(err2)
 	//rdb := redis.NewClient(&redis.Options{
 	//	Addr:     "localhost:6379",
 	//	Password: "", // no password set

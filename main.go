@@ -4,12 +4,10 @@ import (
 	"bytes"
 	"context"
 	"encoding/json"
-	"flag"
 	"fmt"
 	"net/http"
-	"path/filepath"
-	"strings"
-	"time"
+	"os/exec"
+	"regexp"
 )
 
 // https://work.weixin.qq.com/api/doc/90000/90136/91770
@@ -58,20 +56,73 @@ var (
 	count     int64 = 0
 	notice          = 1
 )
+var (
+	EngineFormat = map[string]string{
+		"AhnLab":      "not scan",
+		"ALYac":       "not scan",
+		"Gridinsoft":  "not scan",
+		"Filseclab":   "not scan",
+		"Systweak":    "not scan",
+		"TACHYON":     "not scan",
+		"GDATA":       "not scan",
+		"Panda":       "not scan",
+		"Kingsoft":    "not scan",
+		"Baidu":       "not scan",
+		"Emsisoft":    "not scan",
+		"Qihu360":     "not scan",
+		"Comodo":      "not scan",
+		"QuickHeal":   "not scan",
+		"Xvirus":      "not scan",
+		"JiangMin":    "not scan",
+		"Antiy":       "not scan",
+		"Sunbelt":     "not scan",
+		"Avast":       "not scan",
+		"AVG":         "not scan",
+		"NANO":        "not scan",
+		"Sangfor":     "not scan",
+		"Rising":      "not scan",
+		"Arcabit":     "not scan",
+		"Avira":       "not scan",
+		"ClamAV":      "not scan",
+		"Cyren":       "not scan",
+		"DrWeb":       "not scan",
+		"IKARUS":      "not scan",
+		"K7":          "not scan",
+		"F-Prot":      "not scan",
+		"Fortinet":    "not scan",
+		"F-Secure":    "not scan",
+		"McAfee":      "not scan",
+		"TrendMicro":  "not scan",
+		"VirusBuster": "not scan",
+		"VBA32":       "not scan",
+		"ESET":        "not scan",
+	}
+)
+
+func GetVersion() (string, error) {
+	buf := &bytes.Buffer{}
+	param := "-v"
+	//cmd := exec.Cmd{Path: c.ScriptPath, Args: append([]string{param}, input...), Stdout: buf}
+	cmd := exec.Command("/opt/scancl/scancl", param)
+	cmd.Stdout = buf
+	if err := cmd.Run(); err != nil {
+		return "", err
+	}
+	reg, err := regexp.Compile(`VDF Version:\s+([0-9.]+)`)
+	if err != nil {
+		return "", err
+	}
+	m := reg.FindAllStringSubmatch(buf.String(), -1)
+	fmt.Println("antivir version：", m[0][1])
+	return m[0][1], nil
+}
 
 func main() {
-	m := make(map[string]string)
+	//version, err := GetVersion()
+	//fmt.Println(err)
+	//fmt.Println(version)
+	var m map[string]string
 	fmt.Println(len(m))
-	var n map[string]string = nil
-	fmt.Println(len(n))
-
-	d := filepath.Join("/data", "sadeq", "fdsg")
-	all := strings.ReplaceAll(d, "\\", "/")
-	fmt.Println(all)
-	fmt.Println(time.Now().Unix())
-
-	flag.Int64Var(&max, "max", 10, "set max count , default 10")
-	flag.Parse()
 	//for {
 	//	time.Sleep(time.Second * 3)
 	//	cmd := exec.CommandContext(ctx, "tail", "-1", "/var/log/messages")

@@ -116,6 +116,9 @@ func (self *workWxHook) sendZap(entry zapcore.Entry) error {
 	}
 	client := self.client
 
+	if len(entry.Message) > 2048 {
+		entry.Message = entry.Message[0:2048]
+	}
 	ct := &content{
 		Entry:    entry,
 		Subject:  self.subject,
@@ -123,11 +126,11 @@ func (self *workWxHook) sendZap(entry zapcore.Entry) error {
 		HostName: self.hostname,
 	}
 	marshal, _ := json.Marshal(ct)
-
 	var msg workWxMsg
 	msg.MsgType = "text"
 	txt := &msg.Text
 	txt.Content = string(marshal)
+	log.Println(len(txt.Content))
 	if len(self.mentioned) == 0 {
 		txt.MentionedList = []string{"@all"}
 	} else {
@@ -144,6 +147,9 @@ func (self *workWxHook) sendZap(entry zapcore.Entry) error {
 		log.Println("post sms:", err)
 	}
 	defer resp.Body.Close()
+	log.Println()
+	log.Println(resp.Header)
+	log.Println()
 	return nil
 }
 

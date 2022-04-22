@@ -118,11 +118,20 @@ func GetVersion() (string, error) {
 }
 
 func main() {
+	a := []int{0, 1, 2, 3, 4, 5, 6, 7, 8, 9}
+	b := a[2:5]
+	c := b[2:6:7]
+	c = append(c, 100)
+	c = append(c, 200)
+	b[2] = 20
+	fmt.Println(b)
+	fmt.Println(c)
+	fmt.Println(a)
+
 	//version, err := GetVersion()
 	//fmt.Println(err)
 	//fmt.Println(version)
-	var m map[string]string
-	fmt.Println(len(m))
+
 	//for {
 	//	time.Sleep(time.Second * 3)
 	//	cmd := exec.CommandContext(ctx, "tail", "-1", "/var/log/messages")

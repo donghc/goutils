@@ -116,8 +116,28 @@ func GetVersion() (string, error) {
 	fmt.Println("antivir version：", m[0][1])
 	return m[0][1], nil
 }
-
 func main() {
+
+	fmt.Println(f1())
+	fmt.Println(f2())
+}
+
+func f1() (result int) {
+	defer func() {
+		result++
+	}()
+
+	return 10
+}
+
+func f2() (r int) {
+	t := 5
+	defer func() {
+		r = t + 1
+	}()
+	return 2 * t
+}
+func main1() {
 	a := []int{0, 1, 2, 3, 4, 5, 6, 7, 8, 9}
 	b := a[2:5]
 	c := b[2:6:7]

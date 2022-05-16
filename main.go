@@ -5,9 +5,13 @@ import (
 	"context"
 	"encoding/json"
 	"fmt"
+	"io/ioutil"
 	"net/http"
 	"os/exec"
+	"path/filepath"
 	"regexp"
+	"strings"
+	"time"
 )
 
 // https://work.weixin.qq.com/api/doc/90000/90136/91770
@@ -116,10 +120,37 @@ func GetVersion() (string, error) {
 	fmt.Println("antivir version：", m[0][1])
 	return m[0][1], nil
 }
-func main() {
 
-	fmt.Println(f1())
-	fmt.Println(f2())
+type Samp struct {
+	T bool   `json:"t"`
+	M string `json:"m"`
+}
+
+func main() {
+	d := "D:\\docker"
+	files, _ := ioutil.ReadDir(d)
+	for _, file := range files {
+		if file.IsDir() {
+			fmt.Println("file   ", file.Name())
+		}
+	}
+
+	filename := "D:\\system\\windows\\win11\\win11_chinese(simplified)_x64v1.iso"
+	systemName := filepath.Base(filename)
+	fmt.Println("systemName   ", systemName)
+	isoDir := filepath.Dir(filename)
+	fmt.Println("isoDir   ", isoDir)
+	fmt.Println(strings.ReplaceAll(filename, ".iso", ""))
+
+	w := time.Unix(1651028642, 0).Sub(time.Unix(1648648808, 0)).Seconds()
+
+	fmt.Println(w)
+
+	s := "{\"m\":\"123\"}"
+	var Sa Samp
+	json.Unmarshal([]byte(s), &Sa)
+	fmt.Println(Sa.M)
+	fmt.Println(Sa.T)
 }
 
 func f1() (result int) {

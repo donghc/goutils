@@ -6,6 +6,7 @@ import (
 	"fmt"
 	"github.com/hibiken/asynq"
 	"log"
+	"time"
 )
 
 // A list of task types. 任务类型列表。
@@ -60,6 +61,7 @@ func HandleEmailDeliveryTask(ctx context.Context, t *asynq.Task) error {
 	if err := json.Unmarshal(t.Payload(), &p); err != nil {
 		return fmt.Errorf("json.Unmarshal failed: %v: %w", err, asynq.SkipRetry)
 	}
+	time.Sleep(time.Second * 10)
 	log.Printf("Sending Email to User: user_id=%d, template_id=%s", p.UserID, p.TemplateID)
 	// Email delivery code ...
 	return nil

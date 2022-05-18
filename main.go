@@ -5,13 +5,14 @@ import (
 	"context"
 	"encoding/json"
 	"fmt"
+	"io"
 	"io/ioutil"
+	"log"
+	"mime/multipart"
 	"net/http"
+	"os"
 	"os/exec"
-	"path/filepath"
 	"regexp"
-	"strings"
-	"time"
 )
 
 // https://work.weixin.qq.com/api/doc/90000/90136/91770
@@ -127,30 +128,39 @@ type Samp struct {
 }
 
 func main() {
-	d := "D:\\docker"
-	files, _ := ioutil.ReadDir(d)
-	for _, file := range files {
-		if file.IsDir() {
-			fmt.Println("file   ", file.Name())
-		}
+
+	file, err := os.Open("D:\\software\\Apifox\\ffmpeg.dll")
+	defer file.Close()
+
+	body := &bytes.Buffer{}
+	writer := multipart.NewWriter(body)
+	part, err := writer.CreateFormFile("file", "D:\\software\\Apifox\\ffmpeg.dll")
+
+	_, err = io.Copy(part, file)
+
+	err = writer.WriteField("KEY", "abcdefgh")
+	err = writer.Close()
+
+	//data := strings.NewReader(`KEY=abcdefgh`)
+	//生成post请求
+	req, err := http.NewRequest("POST", "https://lsb102.threatbook-inc.cn/api/file/submit", body)
+	if err != nil {
+		log.Fatal(err)
 	}
+	req.Header.Set("Content-Type", writer.FormDataContentType())
 
-	filename := "D:\\system\\windows\\win11\\win11_chinese(simplified)_x64v1.iso"
-	systemName := filepath.Base(filename)
-	fmt.Println("systemName   ", systemName)
-	isoDir := filepath.Dir(filename)
-	fmt.Println("isoDir   ", isoDir)
-	fmt.Println(strings.ReplaceAll(filename, ".iso", ""))
-
-	w := time.Unix(1651028642, 0).Sub(time.Unix(1648648808, 0)).Seconds()
-
-	fmt.Println(w)
-
-	s := "{\"m\":\"123\"}"
-	var Sa Samp
-	json.Unmarshal([]byte(s), &Sa)
-	fmt.Println(Sa.M)
-	fmt.Println(Sa.T)
+	//req.Header.Set("Content-Type", "application/x-www-form-urlencoded")
+	req.Header.Set("authorization", "Basic bHNidGVzdDpsc2J0ZXN0")
+	req.Header.Set("authority", "lsb102.threatbook-inc.cn")
+	resp, err := client.Do(req)
+	if err != nil {
+		log.Fatal(err)
+	}
+	bodyText, err := ioutil.ReadAll(resp.Body)
+	if err != nil {
+		log.Fatal(err)
+	}
+	fmt.Printf("%s\n", bodyText)
 }
 
 func f1() (result int) {

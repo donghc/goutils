@@ -5,14 +5,11 @@ import (
 	"context"
 	"encoding/json"
 	"fmt"
-	"io"
-	"io/ioutil"
-	"log"
-	"mime/multipart"
+	"math/rand"
 	"net/http"
-	"os"
 	"os/exec"
 	"regexp"
+	"time"
 )
 
 // https://work.weixin.qq.com/api/doc/90000/90136/91770
@@ -128,39 +125,43 @@ type Samp struct {
 }
 
 func main() {
-
-	file, err := os.Open("D:\\software\\Apifox\\ffmpeg.dll")
-	defer file.Close()
-
-	body := &bytes.Buffer{}
-	writer := multipart.NewWriter(body)
-	part, err := writer.CreateFormFile("file", "D:\\software\\Apifox\\ffmpeg.dll")
-
-	_, err = io.Copy(part, file)
-
-	err = writer.WriteField("KEY", "abcdefgh")
-	err = writer.Close()
-
-	//data := strings.NewReader(`KEY=abcdefgh`)
-	//生成post请求
-	req, err := http.NewRequest("POST", "https://lsb102.threatbook-inc.cn/api/file/submit", body)
-	if err != nil {
-		log.Fatal(err)
+	rand.Seed(time.Now().Unix())
+	for i := 0; i < 10000; i++ {
+		fmt.Println(rand.Intn(0))
 	}
-	req.Header.Set("Content-Type", writer.FormDataContentType())
 
-	//req.Header.Set("Content-Type", "application/x-www-form-urlencoded")
-	req.Header.Set("authorization", "Basic bHNidGVzdDpsc2J0ZXN0")
-	req.Header.Set("authority", "lsb102.threatbook-inc.cn")
-	resp, err := client.Do(req)
-	if err != nil {
-		log.Fatal(err)
-	}
-	bodyText, err := ioutil.ReadAll(resp.Body)
-	if err != nil {
-		log.Fatal(err)
-	}
-	fmt.Printf("%s\n", bodyText)
+	//file, err := os.Open("D:\\software\\Apifox\\ffmpeg.dll")
+	//defer file.Close()
+	//
+	//body := &bytes.Buffer{}
+	//writer := multipart.NewWriter(body)
+	//part, err := writer.CreateFormFile("file", "D:\\software\\Apifox\\ffmpeg.dll")
+	//
+	//_, err = io.Copy(part, file)
+	//
+	//err = writer.WriteField("KEY", "abcdefgh")
+	//err = writer.Close()
+	//
+	////data := strings.NewReader(`KEY=abcdefgh`)
+	////生成post请求
+	//req, err := http.NewRequest("POST", "https://lsb102.threatbook-inc.cn/api/file/submit", body)
+	//if err != nil {
+	//	log.Fatal(err)
+	//}
+	//req.Header.Set("Content-Type", writer.FormDataContentType())
+	//
+	////req.Header.Set("Content-Type", "application/x-www-form-urlencoded")
+	//req.Header.Set("authorization", "Basic bHNidGVzdDpsc2J0ZXN0")
+	//req.Header.Set("authority", "lsb102.threatbook-inc.cn")
+	//resp, err := client.Do(req)
+	//if err != nil {
+	//	log.Fatal(err)
+	//}
+	//bodyText, err := ioutil.ReadAll(resp.Body)
+	//if err != nil {
+	//	log.Fatal(err)
+	//}
+	//fmt.Printf("%s\n", bodyText)
 }
 
 func f1() (result int) {

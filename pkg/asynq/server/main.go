@@ -2,6 +2,7 @@ package main
 
 import (
 	"encoding/json"
+	"fmt"
 	"github.com/donghc/goutils/pkg/asynq/task"
 	"github.com/hibiken/asynq"
 	"log"
@@ -22,12 +23,23 @@ func main() {
 	// Example 1: Enqueue task to be processed immediately.
 	//            Use (*Client).Enqueue method.
 	// ------------------------------------------------------
-	for i := 0; i < 200; i++ {
-		task, err := task.NewEmailDeliveryTask(i, "some:template:id")
+	for i := 0; i < 10; i++ {
+		task, err := task.NewImagesResizeTask("some:template:id")
 		if err != nil {
 			log.Fatalf("could not create task: %v", err)
 		}
-		info, err := client.Enqueue(task)
+		info, err := client.Enqueue(task, asynq.Queue(fmt.Sprintf("p:%v", i)))
+
+		if err != nil {
+			//if errors.Is(err, asynq.ErrDuplicateTask) {
+			//	// task already exists, update the existing task with new payload.
+			//	info, err = inspector.UpdateTask("custom_id", task.Payload())
+			//	// ...
+			//} else {
+			//	// handle other errors
+			//}
+		}
+
 		if err != nil {
 			log.Fatalf("创建任务失败: %v", err)
 		}

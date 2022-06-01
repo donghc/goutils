@@ -5,11 +5,10 @@ import (
 	"context"
 	"encoding/json"
 	"fmt"
-	"math/rand"
 	"net/http"
 	"os/exec"
 	"regexp"
-	"time"
+	"strings"
 )
 
 // https://work.weixin.qq.com/api/doc/90000/90136/91770
@@ -125,10 +124,8 @@ type Samp struct {
 }
 
 func main() {
-	rand.Seed(time.Now().Unix())
-	for i := 0; i < 10000; i++ {
-		fmt.Println(rand.Intn(0))
-	}
+	s := []string{"1", "2", "3", "4", "5"}
+	fmt.Println(strings.Join(s, ","))
 
 	//file, err := os.Open("D:\\software\\Apifox\\ffmpeg.dll")
 	//defer file.Close()

@@ -160,7 +160,7 @@ func main() {
 	//fmt.Println(check(source, 0))
 	//source=[]string{}
 	//fmt.Println(check(source, 0))
-	source = []string{"rds"}
+	source = []string{"mapp"}
 	fmt.Println(check(source, 0))
 
 	//file, err := os.Open("D:\\software\\Apifox\\ffmpeg.dll")

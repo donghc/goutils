@@ -8,7 +8,7 @@ import (
 	"net/http"
 	"os/exec"
 	"regexp"
-	"strings"
+	"time"
 )
 
 // https://work.weixin.qq.com/api/doc/90000/90136/91770
@@ -124,8 +124,20 @@ type Samp struct {
 }
 
 func main() {
-	s := []string{"1", "2", "3", "4", "5"}
-	fmt.Println(strings.Join(s, ","))
+	//location, err2 := time.LoadLocation("Local")
+	//fmt.Println(err2)
+	//fmt.Println(location)
+	//parse, err := time.ParseInLocation("2006-01-02 15:04:05", "2010-11-20 21:11:43.057 +0800 CST", location)
+	//fmt.Println(err)
+	//fmt.Println(parse.String())
+	timeFormat := "2006-01-02 15:04:05 +0800 CST"
+	time2, er := time.Parse(timeFormat, "2010-11-20 21:11:43.057 +0800 CST") //洛杉矶时间
+	fmt.Println(er)
+	fmt.Println(time2)
+	fmt.Println(time2.Format(timeFormat))
+
+	fmt.Println(time.Now())
+	fmt.Println(time.Now().Format(timeFormat))
 
 	//file, err := os.Open("D:\\software\\Apifox\\ffmpeg.dll")
 	//defer file.Close()

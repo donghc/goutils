@@ -124,6 +124,10 @@ type Samp struct {
 }
 
 func main() {
+	var s []string
+	s = append(s, "123")
+	fmt.Println(s)
+
 	//location, err2 := time.LoadLocation("Local")
 	//fmt.Println(err2)
 	//fmt.Println(location)

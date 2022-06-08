@@ -5,10 +5,11 @@ import (
 	"context"
 	"encoding/json"
 	"fmt"
+	"log"
 	"net/http"
 	"os/exec"
+	"reflect"
 	"regexp"
-	"time"
 )
 
 // https://work.weixin.qq.com/api/doc/90000/90136/91770
@@ -123,25 +124,44 @@ type Samp struct {
 	M string `json:"m"`
 }
 
+func check(Source interface{}, rds int64) bool {
+	if rds > 0 {
+		return true
+	}
+	if Source != nil {
+		l := reflect.ValueOf(Source)
+		if l.Kind() == reflect.Array || l.Kind() == reflect.Slice {
+			log.Println(" source is array")
+			for idx := 0; idx < l.Len(); idx++ {
+				str := l.Index(idx).String()
+				if str == "mpp" || str == "mapp" || str == "rds" || str == "vskf_win" || str == "vskf_linux" {
+					return true
+				}
+			}
+		}
+		if l.Kind() == reflect.String {
+			str := l.String()
+			if str == "mpp" || str == "mapp" {
+				return true
+			}
+		}
+	}
+
+	return false
+}
+
 func main() {
-	var s []string
-	s = append(s, "123")
-	fmt.Println(s)
-
-	//location, err2 := time.LoadLocation("Local")
-	//fmt.Println(err2)
-	//fmt.Println(location)
-	//parse, err := time.ParseInLocation("2006-01-02 15:04:05", "2010-11-20 21:11:43.057 +0800 CST", location)
-	//fmt.Println(err)
-	//fmt.Println(parse.String())
-	timeFormat := "2006-01-02 15:04:05 +0800 CST"
-	time2, er := time.Parse(timeFormat, "2010-11-20 21:11:43.057 +0800 CST") //洛杉矶时间
-	fmt.Println(er)
-	fmt.Println(time2)
-	fmt.Println(time2.Format(timeFormat))
-
-	fmt.Println(time.Now())
-	fmt.Println(time.Now().Format(timeFormat))
+	var source interface{}
+	fmt.Println(check(source, 0330))
+	fmt.Println(check(source, 0))
+	//source="mapp"
+	//fmt.Println(check(source, 0))
+	//source="mpp"
+	//fmt.Println(check(source, 0))
+	//source=[]string{}
+	//fmt.Println(check(source, 0))
+	source = []string{"rds"}
+	fmt.Println(check(source, 0))
 
 	//file, err := os.Open("D:\\software\\Apifox\\ffmpeg.dll")
 	//defer file.Close()

@@ -151,17 +151,11 @@ func check(Source interface{}, rds int64) bool {
 }
 
 func main() {
-	var source interface{}
-	fmt.Println(check(source, 0330))
-	fmt.Println(check(source, 0))
-	//source="mapp"
-	//fmt.Println(check(source, 0))
-	//source="mpp"
-	//fmt.Println(check(source, 0))
-	//source=[]string{}
-	//fmt.Println(check(source, 0))
-	source = []string{"mapp"}
-	fmt.Println(check(source, 0))
+	var source []string
+	source = append(source, "123")
+	source = nil
+	source = append(source, "123")
+	fmt.Println(source)
 
 	//file, err := os.Open("D:\\software\\Apifox\\ffmpeg.dll")
 	//defer file.Close()

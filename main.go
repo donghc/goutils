@@ -7,6 +7,7 @@ import (
 	"fmt"
 	"log"
 	"net/http"
+	"os"
 	"os/exec"
 	"reflect"
 	"regexp"
@@ -151,11 +152,9 @@ func check(Source interface{}, rds int64) bool {
 }
 
 func main() {
-	var source []string
-	source = append(source, "123")
-	source = nil
-	source = append(source, "123")
-	fmt.Println(source)
+	stat, err := os.Stat("D:\\云查杀 (1).zip")
+	fmt.Println(err)
+	fmt.Println(stat.Size())
 
 	//file, err := os.Open("D:\\software\\Apifox\\ffmpeg.dll")
 	//defer file.Close()
